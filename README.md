@@ -25,7 +25,6 @@ The proposed method recasts the FT-cycle passive microwave retrieval as an anoma
 
 To run this notebook on Google Colab, clone this repository
 ```python
-!rm -r Playground
 !git clone https://github.com/Divak14/FTCEncoder
 cd FTCEncoder
 ```
