@@ -7,7 +7,7 @@ By Divya Kumawat and Ardeshir Ebtehaj
 
 ## Introduction
 
-This Jupyter Notebook presents computational implementation of the *FTC-Encoder*: A convolutional autoencoder deep learning framework for probabilistic characterization of the ground freeze-thaw (FT) dynamics to enhance our understanding of permafrost response to global warming and shifts in the high-latitude carbon cycle, using Soil Moisture Active Passive (SMAP) satellite brightness temperatures (TB) observations at L-band. While the results are presented for SMAP data, the framework can be generalized to other low-frequency passive microwave observations with negligible atmospheric attenuation. 
+This Jupyter Notebook presents the computational implementation of the *FTC-Encoder*: A convolutional autoencoder deep learning framework for probabilistic characterization of the ground freeze-thaw (FT) dynamics to enhance our understanding of permafrost response to global warming and shifts in the high-latitude carbon cycle, using Soil Moisture Active Passive (SMAP) satellite brightness temperatures (TB) observations at L-band. While the results are presented for SMAP data, the framework can be generalized to other low-frequency passive microwave observations with negligible atmospheric attenuation. 
 
 The proposed method recasts the FT-cycle passive microwave retrieval as an anomaly detection problem in which the peak winter (summer) represents the normal (anomaly) segments of the TB time series. This approach relies on (i) a supervised convolutional autoencoder architecture that incorporates the temporal information of the TB time series; (ii) produces a probability measure representing the state of the surface FT cycle, and (iii) only needs labels for frozen (peak winter) and thawed (peak summer) segments of time series, which can be provided with minimum uncertainty and almost no reliance on sparse ground-based observations.
 
@@ -106,10 +106,10 @@ warnings.filterwarnings('ignore', category=DeprecationWarning)
 preprocessor = DataPreprocessor()
 
 # Collect and preprocess data
-# 1- croping and paddeing the data 
+# 1- cropping and padding the data 
 train_winter_pad, train_summer_pad = preprocessor.collect_data(Train_winter, Train_summer)
-# 2- appending the lables to the traning data and concatenate winter and summer data
-print("number of squences x lengths of padded sequences x number of channels + lables")
+# 2- appending the labels to the training data and concatenating winter and summer data
+print("number of sequences x lengths of padded sequences x number of channels + labels")
 print("------------------------------------------------------------------------------")
 combine_train_set, Xytrain = preprocessor.create_master_train_data(train_winter_pad, train_summer_pad)
 
@@ -130,7 +130,7 @@ combine_train_set, Xytrain = preprocessor.create_master_train_data(train_winter_
 # Model parameters
 fs = 32                 # Specify the number of 1-D convolution filters 
 ks = 8                  # Specify 1-D convolution filter size
-dr = 0.1                # Specify the drop out rate
+dr = 0.1                # Specify the dropout rate
 
 # Create and compile the autoencoder model
 FTC_Encoder = AutoencoderModel(dropout_rate=dr, filter_size=fs, kernel_size=ks, l2_reg_rate=0.001)
