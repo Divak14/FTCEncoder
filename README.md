@@ -1,5 +1,5 @@
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Divak14/FTCEncoder/blob/main/Main_script.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Divak14/FTCEncoder/blob/main/Main.ipynb)
 
 # **FTC-Encoder**
 # An Autoencoder Architecture for L-band Passive Microwave Retrieval of Freeze-Thaw Cycle
