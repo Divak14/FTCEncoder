@@ -237,8 +237,8 @@ def contrastive_loss_function(xy_true, x_pred, mask_value=999, epsilon=1e-7):
     # Create a mask to identify padded values
     mask = tf.not_equal(x_true, mask_value)
     
-    # Compute the mean squared error with masking
-    mse = tf.mean(tf.square((x_true - x_pred) * tf.cast(mask, dtype=tf.float32)), axis=-1)
+    # Compute the  squared error with masking
+    mse = tf.reduce_mean(tf.square((x_true - x_pred) * tf.cast(mask, dtype=tf.float32)), axis=-1)
     
     # Clip mse to avoid numerical instabilities
     mse = tf.clip(mse, epsilon, 1e10)
@@ -276,7 +276,7 @@ def Accuracy(xy_true, x_pred, mask_value=999, epsilon=1e-7):
     mask = tf.not_equal(x_true, mask_value)
     
     # Compute the mean squared error with masking
-    mse = tf.mean(tf.square((x_true - x_pred) * tf.cast(mask, dtype=tf.float32)), axis=-1)
+    mse = tf.reduce_mean(tf.square((x_true - x_pred) * tf.cast(mask, dtype=tf.float32)), axis=-1)
     mse = tf.clip(mse, epsilon, 1e10)
 
     prob = tf.exp(-mse)
