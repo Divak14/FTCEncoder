@@ -231,14 +231,14 @@ def contrastive_loss_function(xy_true, x_pred, mask_value=999, epsilon=1e-7):
     t = xy_true[:, 1, 3]
     
     # Ensure x_true and x_pred have the same data type
-    x_true = K.cast(x_true, dtype=K.floatx())
-    x_pred = K.cast(x_pred, dtype=K.floatx())
+    x_true = tf.cast(x_true, dtype=K.floatx())
+    x_pred = tf.cast(x_pred, dtype=K.floatx())
     
     # Create a mask to identify padded values
     mask = K.not_equal(x_true, mask_value)
     
     # Compute the mean squared error with masking
-    mse = K.mean(K.square((x_true - x_pred) * K.cast(mask, dtype=K.floatx())), axis=-1)
+    mse = K.mean(K.square((x_true - x_pred) * tf.cast(mask, dtype=K.floatx())), axis=-1)
     
     # Clip mse to avoid numerical instabilities
     mse = K.clip(mse, epsilon, 1e10)
@@ -269,14 +269,14 @@ def Accuracy(xy_true, x_pred, mask_value=999, epsilon=1e-7):
     t = xy_true[:, 1, 3]
     
     # Ensure x_true and x_pred have the same data type
-    x_true = K.cast(x_true, dtype=K.floatx())
-    x_pred = K.cast(x_pred, dtype=K.floatx())
+    x_true = tf.cast(x_true, dtype=K.floatx())
+    x_pred = tf.cast(x_pred, dtype=K.floatx())
     
     # Create a mask to identify padded values
     mask = K.not_equal(x_true, mask_value)
     
     # Compute the mean squared error with masking
-    mse = K.mean(K.square((x_true - x_pred) * K.cast(mask, dtype=K.floatx())), axis=-1)
+    mse = K.mean(K.square((x_true - x_pred) * tf.cast(mask, dtype=K.floatx())), axis=-1)
     mse = K.clip(mse, epsilon, 1e10)
 
     prob = K.exp(-mse)
@@ -284,19 +284,19 @@ def Accuracy(xy_true, x_pred, mask_value=999, epsilon=1e-7):
     
     # Compute the error term
     pred_label = prob > 0.5
-    pred_label = K.cast(pred_label, dtype=tf.int32)
+    pred_label = tf.cast(pred_label, dtype=tf.int32)
     
 
     # Replicate true_label to match pred_label's shape
     true_label_replicated = tf.tile(t[:, tf.newaxis], [1, prob.shape[1]])
-    true_label_replicated = K.cast(true_label_replicated, dtype=tf.int32)
+    true_label_replicated = tf.cast(true_label_replicated, dtype=tf.int32)
    
     # Create a mask for the agreement calculation
     cts = tf.not_equal(x_true[:, :, 1], mask_value)
-    cts = K.cast(cts, dtype = tf.int32)
+    cts = tf.cast(cts, dtype = tf.int32)
     # Calculate agreement percentage
     #correct_predictions = tf.reduce_sum(tf.cast(pred_label & cts, dtype= tf.int32) == tf.cast(true_label_replicated & cts, dtype=tf.int32), axis=1)
-    correct_predictions = tf.reduce_sum(tf.cast((pred_label) == (true_label_replicated), dtype=tf.float32) * K.cast(cts, dtype=K.floatx()), axis=1)
+    correct_predictions = tf.reduce_sum(tf.cast((pred_label) == (true_label_replicated), dtype=tf.float32) * tf.cast(cts, dtype=K.floatx()), axis=1)
 
     total_predictions = tf.reduce_sum(cts, axis=1)
     agreement_percentage = tf.cast(correct_predictions, dtype = K.floatx()) / tf.cast(total_predictions, dtype = K.floatx()) * 100
@@ -373,7 +373,7 @@ def compute_accuracy(autoencoder_model, X_data, y_data):
     """
     reconst = autoencoder_model.predict(X_data)
     mask = K.not_equal(X_data, 999)
-    mse = keras.backend.mean(keras.backend.square((X_data - reconst) * K.cast(mask, dtype=K.floatx())), axis=-1)
+    mse = keras.backend.mean(keras.backend.square((X_data - reconst) * tf.cast(mask, dtype=K.floatx())), axis=-1)
     prob = np.exp(-mse)
     original_array = y_data[:, 1, 3]
     true_label_array = np.tile(original_array[:, None], X_data.shape[1])
