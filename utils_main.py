@@ -241,7 +241,7 @@ def contrastive_loss_function(xy_true, x_pred, mask_value=999, epsilon=1e-7):
     mse = tf.reduce_mean(tf.square((x_true - x_pred) * tf.cast(mask, dtype=tf.float32)), axis=-1)
     
     # Clip mse to avoid numerical instabilities
-    mse = tf.clip(mse, epsilon, 1e10)
+    mse = tf.clip_by_value(mse, epsilon, 1e10)
     
     # Compute the error term
     err = t[:, np.newaxis] * mse - (1 - t[:, np.newaxis]) * tf.math.log1p(-tf.exp(-mse))
@@ -277,7 +277,7 @@ def Accuracy(xy_true, x_pred, mask_value=999, epsilon=1e-7):
     
     # Compute the mean squared error with masking
     mse = tf.reduce_mean(tf.square((x_true - x_pred) * tf.cast(mask, dtype=tf.float32)), axis=-1)
-    mse = tf.clip(mse, epsilon, 1e10)
+    mse = tf.clip_by_value(mse, epsilon, 1e10)
 
     prob = tf.exp(-mse)
     # Clip mse to avoid numerical issues
