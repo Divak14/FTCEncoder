@@ -247,7 +247,7 @@ def contrastive_loss_function(xy_true, x_pred, mask_value=999, epsilon=1e-7):
     err = t[:, np.newaxis] * mse - (1 - t[:, np.newaxis]) * tf.math.log1p(-tf.exp(-mse))
     
     # Return the sum of errors
-    return tf.sum(err, axis=-1)
+    return tf.reduce_sum(err, axis=-1)
 
 
 def Accuracy(xy_true, x_pred, mask_value=999, epsilon=1e-7):
